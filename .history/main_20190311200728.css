@@ -1,0 +1,9 @@
+button{
+    display: block;
+    margin:0 auto;
+    justify-content: center;
+}
+canvas{
+    border: 1px solid #d2d2d2;
+    background: #ffff;
+}

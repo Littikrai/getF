@@ -1,0 +1,10 @@
+button{
+    display: block;
+    margin:0 auto;
+    justify-content: center;
+}
+html, body {
+    width:  100vw;
+    height: 100vh;
+    margin: 0;
+  }

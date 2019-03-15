@@ -1,0 +1,16 @@
+button{
+    display: block;
+    margin:0 auto;
+    justify-content: center;
+}
+html, body {
+    width:  100%;
+    height: 100%;
+    margin: 0;
+  }
+  canvas {
+    background-color: #f1f1f1;
+    position:absolute; 
+    left:0px;
+    top:0px;
+}
