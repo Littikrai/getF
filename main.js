@@ -83,8 +83,15 @@ function component(width, height, color, x, y, type) {
         var crash = true;
         if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
             crash = false;
+            // if(crash == false){
+            //     power -= 1
+            // }        
         }
-        return crash;            
+        else{
+            power -= 1;
+            console.log(crash)
+        }          
+        return crash;
     }
     this.newPos = function() {
         this.gravitySpeed = this.gravity;
@@ -101,7 +108,10 @@ function toptop(obj){
         obj.gravitySpeed += 1;
     }
 }
-console.log(precentOfHeight)
+function hit(obj){
+    obj.x = Math.floor(Math.random()*precentOfWidth);
+    obj.y = -Math.floor(Math.random()*(precentOfHeight*2));
+}
 
 function updateGameArea() {
     myGameArea.clear();
@@ -122,36 +132,19 @@ function updateGameArea() {
         obj4.gravity += 1;
         i = 0
     }
-    if(x >= 1){
-        toptop(obj);
-        obj.newPos();
-        obj.update();
-        toptop(obj2);
-        obj2.newPos();
-        obj2.update();
-        toptop(obj3);
-        obj3.newPos();
-        obj3.update();
-        toptop(obj4);
-        obj4.newPos();
-        obj4.update();
-        x = 0;
-    }
-    
-    ///show hp
-    if (nisit.crashWith(obj)|| nisit.crashWith(obj2) || nisit.crashWith(obj3) || nisit.crashWith(obj4)) {       
-        // setInterval(function(){            
-        //     nisit.x += nisit.speedX;
-        //     nisit.y += nisit.speedY;
-        //     nisit.update()
-        //     power -= 1;
-        // },20000);
-        setInterval(nisitMove, 5)
-    }else{
-        nisit.x += nisit.speedX;
-        nisit.y += nisit.speedY;
-        nisit.update();
-    }
+    toptop(obj);
+    obj.newPos();
+    obj.update();
+    toptop(obj2);
+    obj2.newPos();
+    obj2.update();
+    toptop(obj3);
+    obj3.newPos();
+    obj3.update();
+    toptop(obj4);
+    obj4.newPos();
+    obj4.update();
+    x = 0;    
     if(power == 3){
         hp.update();
         hp2.update();
@@ -162,15 +155,45 @@ function updateGameArea() {
     }else{
         hp.update();
     }
-}
-function wewe(){
+    ///show hp
+    if (nisit.crashWith(obj)){       
+        hit(obj);
+        obj.newPos();
+        obj.update();
+        nisit.x += nisit.speedX;
+        nisit.y += nisit.speedY;
+        nisit.update();
+        // if(crash == false){
+        //     power -= 1;
+        // }        
+        // setInterval(function(){            
+        //     nisit.x += nisit.speedX;
+        //     nisit.y += nisit.speedY;
+        //     nisit.update()
+        //     power -= 1;
+        // },20000);        
+    }else if(nisit.crashWith(obj2)){
+        hit(obj2);
+        obj2.newPos();
+        obj2.update();
+    }else if(nisit.crashWith(obj3)){
+        hit(obj3);
+        obj3.newPos();
+        obj3.update();
+    }else if(nisit.crashWith(obj4)){
+        hit(obj4);
+        obj4.newPos();
+        obj4.update();
+    }else{
+        nisit.x += nisit.speedX;
+        nisit.y += nisit.speedY;
+        nisit.update();
+    }
     
 }
-function nisitMove(){
-    nisit.x += nisit.speedX;
-    nisit.y += nisit.speedY;
-    nisit.update();
-}
+// function wewe(){
+    
+// }
 // function updateGameArea() {
 //     if (myGamePiece.crashWith(myObstacle)) {
 //         myGameArea.stop();
