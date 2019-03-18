@@ -6,10 +6,21 @@
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css">
+    <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/8bit-wonder" type="text/css"/>
     <script src="main.js">
     </script>
 </head>
 <body onload= "startGame()">
-    <!-- <canvas id=canvas width=200 height=200></canvas> -->
+    <div id="myModal" class="modal">
+    <div class="modal-content">
+        <span id="point"></span>
+        <img id="myImg" src="img/dead.gif" style="width:100%; max-width:300px">
+        <span class="close">Restart</span>
+    </div>
+    </div>
 </body>
+<script>
+    var modal = document.getElementById('myModal');
+    var span = document.getElementsByClassName("close")[0];    
+</script>
 </html>
