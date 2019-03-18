@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body{ background-color: ivory; }
+#canvas{border:1px solid red; margin:0 auto; }
+    </style>
+    
+</head>
+<body>
+<canvas id="canvas" width=300 height=300></canvas>
+<!-- src is for this demo. You can still use your <%...%> -->
+<img src='img/hp.gif' id='picture' style='max-height:100%'>
+</body>
+<script>
+        var myGif = 'http://media3.giphy.com/media/kEKcOWl8RMLde/giphy.gif';
+        
+        var imgg = 
+        window.onload=function(){
+            var ctx = document.getElementById('canvas').getContext('2d');
+            var img = new Image();
+            img.onload = function() {
+            ctx.drawImage(myGif.frames[0].image);
+          };
+          img.src = 'http://media3.giphy.com/media/kEKcOWl8RMLde/giphy.gif';
+          console.log(myGif.frames[0])
+        }
+</script>
+</html>

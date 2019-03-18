@@ -3,6 +3,8 @@ var obj;
 var obj2;
 var obj3;
 var obj4;
+var obj5;
+var objf;
 var nisit;
 var x = 0;
 var i = 0;
@@ -12,16 +14,31 @@ var hp3;
 var power = 3;
 var precentOfHeight = window.innerHeight;
 var precentOfWidth = window.innerWidth;
+const randomx = Math.floor(Math.random()*precentOfWidth);
+const randomy = Math.floor(Math.random()*precentOfHeight);
+var myGif;
+const gifURL = "https://media.giphy.com/media/l3q2yYNt8DXoyKRdm/giphy.gif";
+setTimeout(()=>{
+    myGif = GIF();                  // creates a new gif  
+    myGif.onerror = function(e){
+       console.log("Gif loading error " + e.type);
+    }
+    myGif.load(gifURL);  },0); 
+// var myGif = GIF();
+// var gif = 'https://media.giphy.com/media/l3q2yYNt8DXoyKRdm/giphy.gif'
 function startGame() {
-    nisit = new component(precentOfWidth*0.08, precentOfWidth*0.08, "red", 50, (precentOfHeight-(precentOfWidth*0.08)))
-    myGamePiece = new component((precentOfWidth*0.05), (precentOfWidth*0.05), "img/brush.png", 80, 0, "image");
+    nisit = new component(precentOfWidth*0.1, precentOfWidth*0.1, "img/nisit.gif", 0, (precentOfHeight-(precentOfWidth*0.1)),"image")
     hp = new component((precentOfWidth*0.03), (precentOfWidth*0.03), "img/heart.png", 1, 0, "image");
     hp2 = new component((precentOfWidth*0.03), (precentOfWidth*0.03), "img/heart.png", (precentOfWidth*0.03)+5, 0, "image");
     hp3 = new component((precentOfWidth*0.03), (precentOfWidth*0.03), "img/heart.png", ((precentOfWidth*0.03)*2)+10, 0, "image");
-    obj = new component(100, 200, "green", 120, -200);
-    obj2 = new component(100, 200, "red", 900, -300);
-    obj3 = new component(100, 200, "yellow", 700, -500);
-    obj4 = new component(100, 200, "black", 450, -800);
+    obj = new component(precentOfWidth*0.07, precentOfWidth*0.07, "img/coin.gif", Math.floor(Math.random()*precentOfWidth), -Math.floor(Math.random()*precentOfHeight), "image");
+    obj2 = new component(precentOfWidth*0.06, precentOfWidth*0.08, "img/watch.gif", Math.floor(Math.random()*precentOfWidth), -Math.floor(Math.random()*precentOfHeight), "image");
+    obj3 = new component(precentOfWidth*0.3, precentOfWidth*0.3, "img/table.gif", Math.floor(Math.random()*precentOfWidth), -Math.floor(Math.random()*precentOfHeight), "image");
+    obj4 = new component(precentOfWidth*0.1, precentOfWidth*0.1, "img/com.gif", Math.floor(Math.random()*precentOfWidth), -Math.floor(Math.random()*precentOfHeight), "image");
+    obj5 = new component(precentOfWidth*0.08, precentOfWidth*0.1, "img/Bottle.gif", Math.floor(Math.random()*precentOfWidth), -Math.floor(Math.random()*precentOfHeight), "image");
+    objf = new component(precentOfWidth*0.1, precentOfWidth*0.15, "img/ff.gif", Math.floor(Math.random()*precentOfWidth), -Math.floor(Math.random()*precentOfHeight), "image");
+    // var myGif = GIF();                  // creates a new gif  
+    // var myGif = new GIF(); 
     myGameArea.start();
 }
 window.addEventListener( "keydown", doKeyDown, false);
@@ -47,9 +64,12 @@ var myGameArea = {
 
 function component(width, height, color, x, y, type) {
     this.type = type;
-    if (type == "image") {
+    if (type == "image") {         
         this.image = new Image();
         this.image.src = color;
+        // this.image = new Image();
+         // this.image.src = myGameArea.canvas.toDataURL(color);
+         // document.write('<img src="'+image+'"/>');
     }
     this.width = width;
     this.height = height;
@@ -63,13 +83,13 @@ function component(width, height, color, x, y, type) {
         ctx = myGameArea.context;
         if (type == "image") {
             ctx.drawImage(this.image, 
-                this.x, 
-                this.y,
-                this.width, this.height);
-        } else {
+              this.x, 
+              this.y,
+              this.width, this.height);
+          } else {
             ctx.fillStyle = color;
             ctx.fillRect(this.x, this.y, this.width, this.height);
-        }
+          }
     }
     this.crashWith = function(otherobj) {
         var myleft = this.x;
@@ -82,10 +102,7 @@ function component(width, height, color, x, y, type) {
         var otherbottom = otherobj.y + (otherobj.height);
         var crash = true;
         if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
-            crash = false;
-            // if(crash == false){
-            //     power -= 1
-            // }        
+            crash = false;  
         }
         else{
             power -= 1;
@@ -123,6 +140,10 @@ function updateGameArea() {
     obj3.update();
     obj4.newPos();
     obj4.update();
+    obj5.newPos();
+    obj5.update();
+    objf.newPos();
+    objf.update();
     x += 1;
     i += 1;
     if(i==500){
@@ -130,6 +151,7 @@ function updateGameArea() {
         obj2.gravity += 1;
         obj3.gravity += 1;
         obj4.gravity += 1;
+        objf.gravity += 1;
         i = 0
     }
     toptop(obj);
@@ -144,6 +166,12 @@ function updateGameArea() {
     toptop(obj4);
     obj4.newPos();
     obj4.update();
+    toptop(obj5);
+    obj5.newPos();
+    obj5.update();
+    toptop(objf);
+    objf.newPos();
+    objf.update();
     x = 0;    
     if(power == 3){
         hp.update();
@@ -184,6 +212,10 @@ function updateGameArea() {
         hit(obj4);
         obj4.newPos();
         obj4.update();
+    }else if(nisit.crashWith(obj5)){
+        hit(obj5);
+        obj5.newPos();
+        obj5.update();
     }else{
         nisit.x += nisit.speedX;
         nisit.y += nisit.speedY;
