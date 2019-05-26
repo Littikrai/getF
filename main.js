@@ -4,34 +4,47 @@ var obj3;
 var obj4;
 var obj5;
 var objf;
+var noSound, noSound2, noSound3, noSound4, noSound5, yes;
 var nisit;
 var x = 0;
 var i = 0;
 var hp;
 var hp2;
 var hp3;
+var bgSound;
 var power = 3;
 var precentOfHeight = window.innerHeight;
 var precentOfWidth = window.innerWidth;
 const randomx = Math.floor(Math.random()*precentOfWidth);
 const randomy = Math.floor(Math.random()*precentOfHeight);
 var myScore;
+var scoreImage;
 var points = 0;
 
 console.log(document.getElementById('myModal'))
 
-function startGame() {    
-    nisit = new component(precentOfWidth*0.15, precentOfWidth*0.15, "img/nisit.gif", 0, (precentOfHeight-(precentOfWidth*0.15)),"image")
-    hp = new component((precentOfWidth*0.03), (precentOfWidth*0.03), "img/heart.png", 1, 0, "image");
-    hp2 = new component((precentOfWidth*0.03), (precentOfWidth*0.03), "img/heart.png", (precentOfWidth*0.03)+5, 0, "image");
-    hp3 = new component((precentOfWidth*0.03), (precentOfWidth*0.03), "img/heart.png", ((precentOfWidth*0.03)*2)+10, 0, "image");
-    obj = new component(precentOfWidth*0.07, precentOfWidth*0.07, "img/coin.gif", Math.floor(Math.random()*precentOfWidth), -Math.floor(Math.random()*precentOfHeight), "image-x");
-    obj2 = new component(precentOfWidth*0.06, precentOfWidth*0.08, "img/watch.gif", Math.floor(Math.random()*precentOfWidth), -Math.floor(Math.random()*precentOfHeight), "image-x");
-    obj3 = new component(precentOfWidth*0.3, precentOfWidth*0.3, "img/table.gif", Math.floor(Math.random()*precentOfWidth), -Math.floor(Math.random()*precentOfHeight), "image-x");
-    obj4 = new component(precentOfWidth*0.1, precentOfWidth*0.1, "img/com.gif", Math.floor(Math.random()*precentOfWidth), -Math.floor(Math.random()*precentOfHeight), "image-x");
-    obj5 = new component(precentOfWidth*0.08, precentOfWidth*0.1, "img/Bottle.gif", Math.floor(Math.random()*precentOfWidth), -Math.floor(Math.random()*precentOfHeight), "image-x");
-    objf = new component(precentOfWidth*0.1, precentOfWidth*0.15, "img/ff.gif", Math.floor(Math.random()*precentOfWidth), -Math.floor(Math.random()*precentOfHeight), "image-x");
-    myScore = new component("30px", "Consolas", "black", 280, 40, "text")
+function startGame() {
+    modalStart.style.display = "none";
+    nisit = new component(precentOfHeight*0.15, precentOfHeight*0.18, "img/nisti-right.png", 0, (precentOfHeight-(precentOfHeight*0.18)),"image")
+    hp = new component((precentOfHeight*0.07), (precentOfHeight*0.07), "img/heart.png", 1, 0, "image");
+    hp2 = new component((precentOfHeight*0.07), (precentOfHeight*0.07), "img/heart.png", (precentOfHeight*0.07)+5, 0, "image");
+    hp3 = new component((precentOfHeight*0.07), (precentOfHeight*0.07), "img/heart.png", ((precentOfHeight*0.07)*2)+10, 0, "image");
+    obj = new component(precentOfHeight*0.1, precentOfHeight*0.1, "img/coin.gif", Math.floor(Math.random()*precentOfWidth), -Math.floor(Math.random()*precentOfHeight), "image-x");
+    obj2 = new component(precentOfHeight*0.07, precentOfHeight*0.15, "img/watch.gif", Math.floor(Math.random()*precentOfWidth), -Math.floor(Math.random()*precentOfHeight), "image-x");
+    obj3 = new component(precentOfHeight*0.15, precentOfHeight*0.15, "img/table.gif", Math.floor(Math.random()*precentOfWidth), -Math.floor(Math.random()*precentOfHeight), "image-x");
+    obj4 = new component(precentOfHeight*0.12, precentOfHeight*0.12, "img/com.gif", Math.floor(Math.random()*precentOfWidth), -Math.floor(Math.random()*precentOfHeight), "image-x");
+    obj5 = new component(precentOfHeight*0.07, precentOfHeight*0.18, "img/Bottle.gif", Math.floor(Math.random()*precentOfWidth), -Math.floor(Math.random()*precentOfHeight), "image-x");
+    objf = new component(precentOfHeight*0.05, precentOfHeight*0.1, "img/ff.gif", Math.floor(Math.random()*precentOfWidth), -Math.floor(Math.random()*precentOfHeight), "image-x");
+    myScore = new component("5.5vh", "Consolas", "#ff4646", precentOfWidth-(precentOfHeight*0.18), (precentOfHeight*0.108), "text")
+    scoreImage = new component((precentOfHeight*0.35), (precentOfHeight*0.15), "img/score.png", precentOfWidth-(precentOfHeight*0.38), 10, "image");
+    bgSound = new sound("sound/bg3.mp3");
+    noSound = new sound("sound/no1.mp3");
+    noSound2 = new sound("sound/no2.mp3");
+    noSound3 = new sound("sound/no3.mp3");
+    noSound4 = new sound("sound/no4.mp3");
+    noSound5 = new sound("sound/no5.mp3");
+    yes = new sound("sound/yes.mp3");
+    endSound = new sound("sound/end.mp3")
     myGameArea.start();
 }
 window.addEventListener( "keydown", doKeyDown, false);
@@ -121,6 +134,20 @@ function component(width, height, color, x, y, type) {
     }  
       
 }
+function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function(){
+        this.sound.play();
+    }
+    this.stop = function(){
+        this.sound.pause();
+    }    
+}
 
 function toptop(obj){
     if(obj.y >= window.innerHeight ){
@@ -140,6 +167,7 @@ function hit(obj){
 }
 
 function updateGameArea() {
+    bgSound.play()
     myGameArea.clear();
     obj.angle += 3 * Math.PI / 180;
     obj2.angle += 3 * Math.PI / 180;
@@ -147,7 +175,8 @@ function updateGameArea() {
     obj4.angle += 3 * Math.PI / 180;
     obj5.angle += 3 * Math.PI / 180;
     objf.angle += 3 * Math.PI / 180;
-    myScore.text = "SCORE: " + points
+    myScore.text =  points
+    scoreImage.update();
     myScore.update();
     obj.newPos();
     obj.update();
@@ -161,7 +190,6 @@ function updateGameArea() {
     obj5.update();
     objf.newPos();
     objf.update();
-    x += 1;
     i += 1;
     if(i==500){
         obj.gravity += 1;
@@ -190,7 +218,6 @@ function updateGameArea() {
     toptop(objf);
     objf.newPos();
     objf.update();
-    x = 0;    
     if(power == 3){
         hp.update();
         hp2.update();
@@ -202,6 +229,8 @@ function updateGameArea() {
         hp.update();
     }else{
         nisit.image.src = "";
+        bgSound.stop();
+        endSound.play();
         myGameArea.stop();
         myGameArea.clear();
         modal.style.display = "block";
@@ -212,40 +241,41 @@ function updateGameArea() {
             power = 3;
             soc = 3;
             startGame();
-        }
-        // document.getElementsByTagName("BODY").addEventListener("load", modal);
-        // document.getElementById("modal-content").addEventListener("load", modal);
-        // alert(document.write('<img src="img/pixil-frame-1.gif"/>'));
-        // document.write('<img src="img/pixil-frame-1.gif"/>')
+        }        
     }
-    ///show hp
     if (nisit.crashWith(obj)){       
         hit(obj);
+        noSound.play()
         obj.newPos();
         obj.update();
         power -= 1 
     }else if(nisit.crashWith(obj2)){
         hit(obj2);
+        noSound2.play()
         obj2.newPos();
         obj2.update();
         power -= 1 
     }else if(nisit.crashWith(obj3)){
         hit(obj3);
+        noSound3.play()
         obj3.newPos();
         obj3.update();
         power -= 1 
     }else if(nisit.crashWith(obj4)){
         hit(obj4);
+        noSound4.play()
         obj4.newPos();
         obj4.update();
         power -= 1 
     }else if(nisit.crashWith(obj5)){
         hit(obj5);
+        noSound5.play()
         obj5.newPos();
         obj5.update();
         power -= 1 
     }else if(nisit.crashWith(objf)){
         hit_f(objf);
+        yes.play()
         objf.newPos();
         objf.update();
     }else{
@@ -259,12 +289,12 @@ function doKeyDown(e) {
     if(e.type=='keydown'){
         if(e.keyCode==37){
             nisit.image.src = "img/nisit-left.png"            
-            nisit.speedX = -8;
+            nisit.speedX = -10;
             return false;
         }
         else if(e.keyCode==39){
             nisit.image.src = "img/nisti-right.png"
-            nisit.speedX = 8; 
+            nisit.speedX = 10; 
             return false;            
         }
     }else if(e.type=='keyup'){

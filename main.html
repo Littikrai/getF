@@ -10,17 +10,25 @@
     <script src="main.js">
     </script>
 </head>
-<body onload= "startGame()">
-    <div id="myModal" class="modal">
+<body>
+    <div id="myStart" class="modal-start">
+        <div class="modal-content-2">
+            <img src="img/ex.png" class="start">
+            <img src="img/play.gif" class="play" onclick="startGame()">
+        </div>
+    </div>
+     
+<div id="myModal" class="modal">
     <div class="modal-content">
         <span id="point"></span>
         <img id="myImg" src="img/dead.gif" style="width:100%; max-width:300px">
-        <span class="close">Restart</span>
+        <img class="close" src="img/restart.gif">
     </div>
-    </div>
+</div>
 </body>
 <script>
     var modal = document.getElementById('myModal');
+    var modalStart = document.getElementById('myStart');
     var span = document.getElementsByClassName("close")[0];    
 </script>
 </html>
